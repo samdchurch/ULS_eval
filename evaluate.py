@@ -56,7 +56,7 @@ def convert_image(img_np, box_np):
 
     return img_1024_tensor, box_1024
 
-def evaluate():
+def evaluate(model):
     data_dir = '/app/UserData/public_datasets/ULS23'
     dataset = ULSDataset(data_dir=data_dir, location_file='eval_data.txt', dataset_size=20, random_seed=111)
 
@@ -80,5 +80,7 @@ if __name__ == '__main__':
     medsam_model = sam_model_registry['vit_b'](checkpoint=MedSAM_CKPT_PATH)
     medsam_model = medsam_model.to(device)
     medsam_model.eval()
+
+    evaluate(medsam_model)
 
     
