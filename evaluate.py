@@ -41,12 +41,6 @@ def medsam_inference(medsam_model, img_embed, box_1024, H, W):
 if __name__ == '__main__':
     #MedSAM_CKPT_PATH = '/app/MedSAM/work_dir/MedSAM/lite_medsam.pth'
     MedSAM_CKPT_PATH = '/app/MedSAM/work_dir/MedSAM/medsam_vit_b.pth'
-    medsam_model = sam_model_registry['vit_b'](checkpoint=MedSAM_CKPT_PATH)
-
-    device = "cuda:0"
-    medsam_model = sam_model_registry['vit_b'](checkpoint=MedSAM_CKPT_PATH)
-    medsam_model = medsam_model.to(device)
-    medsam_model.eval()
 
     if torch.cuda.is_available():
         print("CUDA is available! GPU can be used.")
@@ -55,3 +49,11 @@ if __name__ == '__main__':
     else:
         print("CUDA is not available. Using CPU.")
         device = torch.device("cpu")
+    
+
+    device = "cuda:0"
+    medsam_model = sam_model_registry['vit_b'](checkpoint=MedSAM_CKPT_PATH)
+    medsam_model = medsam_model.to(device)
+    medsam_model.eval()
+
+    
