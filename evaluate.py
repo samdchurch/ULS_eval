@@ -50,8 +50,6 @@ if __name__ == '__main__':
         print("CUDA is not available. Using CPU.")
         device = torch.device("cpu")
     
-
-    device = "cuda:0"
     medsam_model = sam_model_registry['vit_b'](checkpoint=MedSAM_CKPT_PATH)
     medsam_model = medsam_model.to(device)
     medsam_model.eval()
