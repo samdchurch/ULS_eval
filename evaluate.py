@@ -2,6 +2,9 @@ import sys
 import torch
 import torch.nn.functional as F
 import numpy as np
+from skimage import transform
+
+from dataset import ULSDataset
 
 sys.path.insert(0, '/app/MedSAM')
 from segment_anything import sam_model_registry
@@ -36,6 +39,30 @@ def medsam_inference(medsam_model, img_embed, box_1024, H, W):
     low_res_pred = low_res_pred.squeeze().cpu().numpy()  # (256, 256)
     medsam_seg = (low_res_pred > 0.5).astype(np.uint8)
     return medsam_seg
+
+def convert_image(img_np, box_np):
+    if len(img_np.shape) == 2:
+        img_3c = np.repeat(img_np[:, :, None], 3, axis=-1)
+    else:
+        img_3c = img_np
+    H, W, _ = img_3c.shape
+
+    img_1024 = transform.resize(img_3c, (1024, 1024), order=3, preserve_range=True, anti_aliasing=True).astype(np.uint8)
+    img_1024 = (img_1024 - img_1024.min()) / np.clip(img_1024.max() - img_1024.min(), a_min=1e-8, a_max=None)  # normalize to [0, 1], (H, W, 3)
+    
+    # convert the shape to (3, H, W)
+    img_1024_tensor = torch.tensor(img_1024).float().permute(2, 0, 1).unsqueeze(0).to(device)
+    box_1024 = box_np / np.array([W, H, W, H]) * 1024
+
+    return img_1024_tensor, box_1024
+
+def evaluate():
+    data_dir = '/app/UserData/public_datasets/ULS23'
+    dataset = ULSDataset(data_dir=data_dir, location_file='eval_data.txt', dataset_size=20, random_seed=111)
+
+    for idx, (image_data, label_data, major_axis) in enumerate(dataset):
+        print(major_axis)
+        break
 
 
 if __name__ == '__main__':

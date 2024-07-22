@@ -1,0 +1,11 @@
+public_datasets/ULS23/novel_data/ULS23_DeepLesion3D
+public_datasets/ULS23/novel_data/ULS23_Radboudumc_Bone
+public_datasets/ULS23/novel_data/ULS23_Radboudumc_Pancreas
+public_datasets/ULS23/processed_data/fully_annotated/kits21
+public_datasets/ULS23/processed_data/fully_annotated/LIDC-IDRI
+public_datasets/ULS23/processed_data/fully_annotated/LiTS
+public_datasets/ULS23/processed_data/fully_annotated/MDSC_Task06_Lung
+public_datasets/ULS23/processed_data/fully_annotated/MDSC_Task07_Pancreas
+public_datasets/ULS23/processed_data/fully_annotated/MDSC_Task10_Colon
+public_datasets/ULS23/processed_data/fully_annotated/NIH_LN_ABD
+public_datasets/ULS23/processed_data/fully_annotated/NIH_LN_MED

@@ -5,7 +5,6 @@ import numpy as np
 import nibabel as nib
 from torch.utils.data import Dataset
 
-data_dir = '/app/UserData/public_datasets/ULS23'
 
 class ULSDataset(Dataset):
     def __init__(self, data_dir, location_file, dataset_size=5, random_seed=2) -> None:
@@ -35,10 +34,12 @@ class ULSDataset(Dataset):
         label_data = nib.load(label_file).get_fdata()
         with open(annotation_file) as f:
             annotation_data = json.load(f)
+
+        image_data = nib.load(image_file).get_fdata()
         
         major_axis = np.array(annotation_data['major'])
 
-        return image_file, label_file, major_axis
+        return image_data, label_data, major_axis
 
     def __len__(self):
         return len(self.label_files)
