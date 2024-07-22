@@ -42,3 +42,16 @@ if __name__ == '__main__':
     #MedSAM_CKPT_PATH = '/app/MedSAM/work_dir/MedSAM/lite_medsam.pth'
     MedSAM_CKPT_PATH = '/app/MedSAM/work_dir/MedSAM/medsam_vit_b.pth'
     medsam_model = sam_model_registry['vit_b'](checkpoint=MedSAM_CKPT_PATH)
+
+    device = "cuda:0"
+    medsam_model = sam_model_registry['vit_b'](checkpoint=MedSAM_CKPT_PATH)
+    medsam_model = medsam_model.to(device)
+    medsam_model.eval()
+
+    if torch.cuda.is_available():
+        print("CUDA is available! GPU can be used.")
+        device = torch.device("cuda")
+        print(f"Device name: {torch.cuda.get_device_name(device)}")
+    else:
+        print("CUDA is not available. Using CPU.")
+        device = torch.device("cpu")
